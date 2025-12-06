@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://silver-server-1.onrender.com/api/health',
+  baseURL: 'https://silver-server-1.onrender.com/',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
