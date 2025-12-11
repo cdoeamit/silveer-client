@@ -47,8 +47,31 @@ const Dashboard = () => {
           </button>
         </div>
 
-        {/* Stats Cards */}
-        <DashboardStats stats={stats} loading={loading} />
+        {/* Quick Actions - UPDATED WITH TWO BILLING SYSTEMS */}
+        <div className="flex justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl w-full px-4">
+
+          {/* Wholesale Billing */}
+          <Link 
+            to="/wholesale"
+            className="bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-all hover:scale-105"
+          >
+            <div className="text-3xl mb-2">🏪</div>
+            <h3 className="font-semibold text-lg mb-1">Wholesale</h3>
+            <p className="text-purple-100 text-sm">B2B Sales & Silver Returns</p>
+          </Link>
+
+          {/* Regular Billing - NEW */}
+          <Link 
+            to="/regular"
+            className="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-all hover:scale-105"
+          >
+            <div className="text-3xl mb-2">🛒</div>
+            <h3 className="font-semibold text-lg mb-1">Production</h3>
+            <p className="text-green-100 text-sm">Retail Sales for Users</p>
+          </Link>
+        </div>
+      </div>
 
         {/* Category Breakdown */}
         {!loading && stats?.categoryBreakdown && (
@@ -99,6 +122,8 @@ const Dashboard = () => {
           </div>
         )}
 
+        {/* Stats Cards */}
+        <DashboardStats stats={stats} loading={loading} />
         {/* Quick Actions - UPDATED WITH TWO BILLING SYSTEMS */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Products */}
@@ -111,26 +136,6 @@ const Dashboard = () => {
             <p className="text-blue-100 text-sm">Add, edit, or remove products</p>
           </Link>
 
-          {/* Wholesale Billing */}
-          <Link 
-            to="/wholesale"
-            className="bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-all hover:scale-105"
-          >
-            <div className="text-3xl mb-2">🏪</div>
-            <h3 className="font-semibold text-lg mb-1">Wholesale Billing</h3>
-            <p className="text-purple-100 text-sm">B2B Sales & Silver Returns</p>
-          </Link>
-
-          {/* Regular Billing - NEW */}
-          <Link 
-            to="/regular"
-            className="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-all hover:scale-105"
-          >
-            <div className="text-3xl mb-2">🛒</div>
-            <h3 className="font-semibold text-lg mb-1">Regular Billing</h3>
-            <p className="text-green-100 text-sm">Retail Sales for Users</p>
-          </Link>
-
           {/* Analytics */}
           <div className="bg-gradient-to-br from-orange-500 to-orange-600 text-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-all hover:scale-105 cursor-pointer">
             <div className="text-3xl mb-2">📊</div>
@@ -138,6 +143,8 @@ const Dashboard = () => {
             <p className="text-orange-100 text-sm">Coming Soon</p>
           </div>
         </div>
+
+        
       </div>
     </AdminLayout>
   );
