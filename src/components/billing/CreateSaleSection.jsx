@@ -426,7 +426,7 @@ export default function CreateSaleSection({ onSaleCreated }) {
           <label className="block text-sm font-medium mb-2">Silver Rate per Gram (₹)</label>
           <input
             type="number"
-            step="0.01"
+            step="0"
             value={formData.silverRate}
             onChange={(e) => setFormData({...formData, silverRate: e.target.value})}
             className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-purple-500"
@@ -499,12 +499,11 @@ export default function CreateSaleSection({ onSaleCreated }) {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm mb-1">Touch</label>
+                  <label className="block text-sm mb-1">Labor Rate/KG (₹)</label>
                   <input
                     type="number"
-                    step="0.01"
-                    value={item.touch}
-                    onChange={(e) => handleItemChange(index, 'touch', e.target.value)}
+                    value={item.laborRatePerKg}
+                    onChange={(e) => handleItemChange(index, 'laborRatePerKg', e.target.value)}
                     className="w-full p-2 border rounded-lg text-sm"
                   />
                 </div>
@@ -512,7 +511,7 @@ export default function CreateSaleSection({ onSaleCreated }) {
                   <label className="block text-sm mb-1">Gross Wt (g) *</label>
                   <input
                     type="number"
-                    step="0.001"
+                    step="0"
                     value={item.grossWeight}
                     onChange={(e) => handleItemChange(index, 'grossWeight', e.target.value)}
                     className="w-full p-2 border rounded-lg text-sm"
@@ -523,7 +522,7 @@ export default function CreateSaleSection({ onSaleCreated }) {
                   <label className="block text-sm mb-1">Stone Wt (g)</label>
                   <input
                     type="number"
-                    step="0.001"
+                    step="0"
                     value={item.stoneWeight}
                     onChange={(e) => handleItemChange(index, 'stoneWeight', e.target.value)}
                     className="w-full p-2 border rounded-lg text-sm"
@@ -533,10 +532,20 @@ export default function CreateSaleSection({ onSaleCreated }) {
                   <label className="block text-sm mb-1">Net Wt (g) *</label>
                   <input
                     type="number"
-                    step="0.001"
+                    step="0"
                     value={item.netWeight}
                     className="w-full p-2 border rounded-lg text-sm bg-gray-50"
                     readOnly
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm mb-1">Touch</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={item.touch}
+                    onChange={(e) => handleItemChange(index, 'touch', e.target.value)}
+                    className="w-full p-2 border rounded-lg text-sm"
                   />
                 </div>
                 <div>
@@ -546,16 +555,6 @@ export default function CreateSaleSection({ onSaleCreated }) {
                     step="0.001"
                     value={item.wastage}
                     onChange={(e) => handleItemChange(index, 'wastage', e.target.value)}
-                    className="w-full p-2 border rounded-lg text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm mb-1">Labor Rate/KG (₹)</label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    value={item.laborRatePerKg}
-                    onChange={(e) => handleItemChange(index, 'laborRatePerKg', e.target.value)}
                     className="w-full p-2 border rounded-lg text-sm"
                   />
                 </div>
