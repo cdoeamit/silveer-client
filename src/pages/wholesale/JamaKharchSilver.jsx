@@ -45,6 +45,20 @@ const JamaKharchSilver = () => {
     }
   }, [searchTerm, transactions]);
 
+  // Auto-calculate Total Silver when Gross Weight or Touch changes
+  useEffect(() => {
+    const grossWeight = parseFloat(rawFormData.grossWeight) || 0;
+    const touch = parseFloat(rawFormData.touch) || 0;
+    
+    if (grossWeight > 0 && touch > 0) {
+      const totalSilver = (grossWeight * touch) / 100;
+      setRawFormData(prev => ({
+        ...prev,
+        totalSilver: totalSilver.toFixed(3)
+      }));
+    }
+  }, [rawFormData.grossWeight, rawFormData.touch]);
+
   const fetchTransactions = async () => {
     setLoading(true);
     try {
@@ -75,7 +89,6 @@ const JamaKharchSilver = () => {
     XLSX.utils.book_append_sheet(workbook, worksheet, `${activeTab} Silver`);
     XLSX.writeFile(workbook, `Wholesale_${activeTab}_Silver_${new Date().toISOString().split('T')[0]}.xlsx`);
   };
-
 
   const handleFineSubmit = async (e) => {
     e.preventDefault();
@@ -229,91 +242,89 @@ const JamaKharchSilver = () => {
           </form>
         </div>
 
-        {/* Raw Silver Form (Only for KHARCHA) */}
-        
-          <div className="mb-8">
-            <h3 className="text-lg font-semibold mb-4">Raw Silver</h3>
-            <form onSubmit={handleRawSubmit} className="grid grid-cols-1 md:grid-cols-6 gap-4 mb-6">
-              <div>
-                <label className="block text-sm font-medium mb-1">Date</label>
-                <input
-                  type="date"
-                  value={rawFormData.date}
-                  onChange={(e) => setRawFormData({ ...rawFormData, date: e.target.value })}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
+        {/* Raw Silver Form */}
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold mb-4">Raw Silver</h3>
+          <form onSubmit={handleRawSubmit} className="grid grid-cols-1 md:grid-cols-6 gap-4 mb-6">
+            <div>
+              <label className="block text-sm font-medium mb-1">Date</label>
+              <input
+                type="date"
+                value={rawFormData.date}
+                onChange={(e) => setRawFormData({ ...rawFormData, date: e.target.value })}
+                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
 
-              <div>
-                <label className="block text-sm font-medium mb-1">Form No.</label>
-                <input
-                  type="text"
-                  value={rawFormData.formNo}
-                  onChange={(e) => setRawFormData({ ...rawFormData, formNo: e.target.value })}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Form No.</label>
+              <input
+                type="text"
+                value={rawFormData.formNo}
+                onChange={(e) => setRawFormData({ ...rawFormData, formNo: e.target.value })}
+                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
 
-              <div>
-                <label className="block text-sm font-medium mb-1">G Weight</label>
-                <input
-                  type="number"
-                  step="0.001"
-                  value={rawFormData.grossWeight}
-                  onChange={(e) => setRawFormData({ ...rawFormData, grossWeight: e.target.value })}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">G Weight</label>
+              <input
+                type="number"
+                step="0.001"
+                value={rawFormData.grossWeight}
+                onChange={(e) => setRawFormData({ ...rawFormData, grossWeight: e.target.value })}
+                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
 
-              <div>
-                <label className="block text-sm font-medium mb-1">Touch</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  value={rawFormData.touch}
-                  onChange={(e) => setRawFormData({ ...rawFormData, touch: e.target.value })}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Touch</label>
+              <input
+                type="number"
+                step="0.01"
+                value={rawFormData.touch}
+                onChange={(e) => setRawFormData({ ...rawFormData, touch: e.target.value })}
+                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
 
-              <div>
-                <label className="block text-sm font-medium mb-1">Total Silver</label>
-                <input
-                  type="number"
-                  step="0.001"
-                  value={rawFormData.totalSilver}
-                  onChange={(e) => setRawFormData({ ...rawFormData, totalSilver: e.target.value })}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Total Silver (Auto)</label>
+              <input
+                type="number"
+                step="0.001"
+                value={rawFormData.totalSilver}
+                readOnly
+                className="w-full px-3 py-2 border rounded-lg bg-gray-100 cursor-not-allowed"
+                placeholder="Auto-calculated"
+              />
+            </div>
 
-              <div>
-                <label className="block text-sm font-medium mb-1">Name/Description</label>
-                <input
-                  type="text"
-                  value={rawFormData.name}
-                  onChange={(e) => setRawFormData({ ...rawFormData, name: e.target.value, description: e.target.value })}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Name/Description</label>
+              <input
+                type="text"
+                value={rawFormData.name}
+                onChange={(e) => setRawFormData({ ...rawFormData, name: e.target.value, description: e.target.value })}
+                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
 
-              <div className="col-span-full">
-                <button
-                  type="submit"
-                  className="px-6 py-2 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
-                >
-                  Save Details
-                </button>
-              </div>
-            </form>
-          </div>
-        
+            <div className="col-span-full">
+              <button
+                type="submit"
+                className="px-6 py-2 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors"
+              >
+                Save Details
+              </button>
+            </div>
+          </form>
+        </div>
 
         <div className="mt-8 mb-4 flex justify-between items-center">
           <div className="flex-1 max-w-md">
